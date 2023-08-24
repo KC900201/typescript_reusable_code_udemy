@@ -1,6 +1,7 @@
-import { dateStringToDate } from './utils';
-import { MatchResult } from './MatchResult.enum';
-type MatchDataTuple = [Date, string, string, number, number, MatchResult, string];
+import { dateStringToDate } from './utils'
+import { MatchDataTuple } from './MatchData'
+import { MatchResult } from './MatchResult.enum'
+import { CSVFileReader } from './CSVFileReader'
 
 interface DataReader {
   read(): void
@@ -11,6 +12,10 @@ export class MatchReader {
   matches: MatchDataTuple[] = []
 
   constructor(public reader: DataReader) {}
+
+  static fromCsv(filename: string): MatchReader {
+    return new MatchReader(new CSVFileReader(filename))
+  }
 
   load(): void {
     this.reader.read()
